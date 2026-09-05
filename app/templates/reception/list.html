@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Recepcao | Pronto Socorro{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">Recepcao</p><h1>Atendimentos</h1></div><a class="button" href="{{ url_for('main.create_attendance') }}">Novo atendimento</a></div>
+<form class="search" method="get"><label for="q">Buscar por numero, nome ou CPF</label><div><input id="q" name="q" value="{{ query }}" placeholder="Digite para buscar"><button class="button secondary">Buscar</button></div></form>
+<div class="table-wrap"><table><thead><tr><th>Numero</th><th>Paciente</th><th>CPF</th><th>Status</th><th>Entrada</th></tr></thead><tbody>
+{% for item in attendances %}<tr><td><a href="{{ url_for('main.attendance_detail', attendance_id=item.id) }}">{{ item.code }}</a></td><td>{{ item.full_name }}</td><td>{{ item.cpf }}</td><td><span class="status">{{ item.status|replace('_', ' ') }}</span></td><td>{{ item.created_at }}</td></tr>{% else %}<tr><td colspan="5" class="empty">Nenhum atendimento encontrado.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

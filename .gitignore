@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.py[cod]
+instance/
+pronto_socorro.db
+.pytest_cache/

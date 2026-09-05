@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Triagem | Pronto Socorro{% endblock %}
+{% block content %}<div class="page-heading"><div><p class="eyebrow">Enfermagem</p><h1>Fila de triagem</h1></div></div>
+<div class="table-wrap"><table><thead><tr><th>Numero</th><th>Paciente</th><th>Status</th><th>Entrada</th><th></th></tr></thead><tbody>
+{% for item in attendances %}<tr><td>{{ item.code }}</td><td>{{ item.full_name }}</td><td><span class="status">{{ item.status|replace('_', ' ') }}</span></td><td>{{ item.created_at }}</td><td><a class="text-link" href="{{ url_for('main.triage', attendance_id=item.id) }}">{{ 'Revisar' if item.status == 'aguardando_medico' else 'Iniciar' }}</a></td></tr>{% else %}<tr><td colspan="5" class="empty">Nao ha pacientes aguardando triagem.</td></tr>{% endfor %}
+</tbody></table></div>{% endblock %}

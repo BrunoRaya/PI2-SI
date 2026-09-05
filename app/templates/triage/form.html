@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Triagem {{ attendance.code }}{% endblock %}
+{% block content %}<div class="page-heading"><div><p class="eyebrow">Triagem {{ attendance.code }}</p><h1>{{ attendance.full_name }}</h1></div></div>
+<form class="card form-grid" method="post">
+  <label>Pressao arterial<input name="blood_pressure" required placeholder="120/80" value="{{ request.form.get('blood_pressure', attendance.blood_pressure or '') }}"></label>
+  <label>Temperatura corporal<input name="temperature" required inputmode="decimal" placeholder="36,5" value="{{ request.form.get('temperature', attendance.temperature or '') }}"></label>
+  <label>Batimentos cardiacos<input type="number" min="1" name="heart_rate" required value="{{ request.form.get('heart_rate', attendance.heart_rate or '') }}"></label>
+  <label>Classificacao Manchester<select name="manchester" required><option value="">Selecione</option>{% for key, value in manchester.items() %}<option value="{{ key }}" {{ 'selected' if request.form.get('manchester', attendance.manchester) == key }}>{{ key|capitalize }} - {{ value[1] }}</option>{% endfor %}</select></label>
+  <label class="wide">Principais queixas<textarea name="complaints" rows="5" required>{{ request.form.get('complaints', attendance.complaints or '') }}</textarea></label>
+  <div class="form-actions wide"><a class="button ghost" href="{{ url_for('main.triage_queue') }}">Voltar</a><button class="button">Salvar triagem</button></div>
+</form>{% endblock %}

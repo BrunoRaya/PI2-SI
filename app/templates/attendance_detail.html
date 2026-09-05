@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}{{ attendance.code }} | Pronto Socorro{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">Atendimento</p><h1>{{ attendance.code }}</h1><span class="status">{{ attendance.status|replace('_', ' ') }}</span></div>
+{% if attendance.status not in ['finalizado', 'cancelado'] %}<div class="actions"><a class="button secondary" href="{{ url_for('main.edit_attendance', attendance_id=attendance.id) }}">Editar cadastro</a><form method="post" action="{{ url_for('main.cancel_attendance', attendance_id=attendance.id) }}"><button class="button danger">Cancelar atendimento</button></form></div>{% endif %}</div>
+<div class="details-grid">
+  <section class="card"><h2>Paciente</h2><dl><dt>Nome</dt><dd>{{ attendance.full_name }}</dd><dt>CPF</dt><dd>{{ attendance.cpf }}</dd><dt>Nascimento</dt><dd>{{ attendance.birth_date }}</dd><dt>Endereco</dt><dd>{{ attendance.address }}</dd><dt>Telefone</dt><dd>{{ attendance.phone or '-' }}</dd></dl></section>
+  <section class="card"><h2>Triagem</h2>{% if attendance.manchester %}<span class="priority priority-{{ attendance.manchester }}">{{ attendance.manchester }}</span><dl><dt>Pressao</dt><dd>{{ attendance.blood_pressure }}</dd><dt>Temperatura</dt><dd>{{ attendance.temperature }} C</dd><dt>Batimentos</dt><dd>{{ attendance.heart_rate }} bpm</dd><dt>Queixas</dt><dd>{{ attendance.complaints }}</dd></dl>{% else %}<p class="muted">Triagem ainda nao realizada.</p><a class="button secondary" href="{{ url_for('main.triage', attendance_id=attendance.id) }}">Realizar triagem</a>{% endif %}</section>
+</div>
+{% if medications %}<section class="card"><h2>Medicacoes</h2><ul class="medications">{% for item in medications %}<li><strong>{{ item.name }}</strong> - {{ item.dosage }}{% if item.instructions %}<span>{{ item.instructions }}</span>{% endif %}</li>{% endfor %}</ul></section>{% endif %}
+{% if attendance.medical_notes %}<section class="card"><h2>Avaliacao medica</h2><p>{{ attendance.medical_notes }}</p></section>{% endif %}
+{% endblock %}

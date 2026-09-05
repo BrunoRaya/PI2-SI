@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Painel medico | Pronto Socorro{% endblock %}
+{% block content %}<div class="page-heading"><div><p class="eyebrow">Equipe medica</p><h1>Painel de atendimentos</h1><p class="muted">Fila ordenada pela classificacao Manchester e pelo horario de chegada.</p></div></div>
+<div class="queue">
+{% for item in attendances %}<article class="queue-item priority-border-{{ item.manchester }}"><div><span class="priority priority-{{ item.manchester }}">{{ item.manchester }}</span><h2>{{ item.full_name }}</h2><p>{{ item.code }} · Nascimento: {{ item.birth_date }}</p><p class="complaint">{{ item.complaints }}</p></div><a class="button" href="{{ url_for('main.doctor_attendance', attendance_id=item.id) }}">Atender</a></article>{% else %}<div class="card empty">Nao ha pacientes aguardando atendimento medico.</div>{% endfor %}
+</div>{% endblock %}

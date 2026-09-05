@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Editar' if attendance else 'Novo' }} atendimento{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">Recepcao</p><h1>{{ 'Editar paciente' if attendance else 'Novo atendimento' }}</h1></div></div>
+<form class="card form-grid" method="post">
+  <label class="wide">Nome completo<input name="full_name" required value="{{ request.form.get('full_name', attendance.full_name if attendance else '') }}"></label>
+  <label>CPF<input name="cpf" required {{ 'readonly' if attendance }} value="{{ request.form.get('cpf', attendance.cpf if attendance else '') }}"></label>
+  <label>RG<input name="rg" value="{{ request.form.get('rg', attendance.rg if attendance else '') }}"></label>
+  <label>Data de nascimento<input type="date" name="birth_date" required value="{{ request.form.get('birth_date', attendance.birth_date if attendance else '') }}"></label>
+  <label>Telefone<input name="phone" value="{{ request.form.get('phone', attendance.phone if attendance else '') }}"></label>
+  <label class="wide">Endereco<input name="address" required value="{{ request.form.get('address', attendance.address if attendance else '') }}"></label>
+  <label>Nome do pai<input name="father_name" value="{{ request.form.get('father_name', attendance.father_name if attendance else '') }}"></label>
+  <label>Nome da mae<input name="mother_name" value="{{ request.form.get('mother_name', attendance.mother_name if attendance else '') }}"></label>
+  <div class="form-actions wide"><a class="button ghost" href="{{ url_for('main.reception') }}">Cancelar</a><button class="button">{{ 'Salvar alteracoes' if attendance else 'Criar atendimento' }}</button></div>
+</form>
+{% endblock %}

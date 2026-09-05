@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Inicio | Pronto Socorro{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <p class="eyebrow">Visao geral</p>
+    <h1>Atendimentos do pronto socorro</h1>
+    <p>Controle o percurso do paciente da recepcao ate a alta medica.</p>
+  </div>
+  <a class="button" href="{{ url_for('main.create_attendance') }}">Novo atendimento</a>
+</section>
+<section class="stats" aria-label="Resumo dos atendimentos">
+  <article><strong>{{ counts.get('aguardando_triagem', 0) }}</strong><span>Aguardando triagem</span></article>
+  <article><strong>{{ counts.get('aguardando_medico', 0) }}</strong><span>Aguardando medico</span></article>
+  <article><strong>{{ counts.get('em_atendimento', 0) }}</strong><span>Em atendimento</span></article>
+  <article><strong>{{ counts.get('finalizado', 0) }}</strong><span>Finalizados</span></article>
+</section>
+<section>
+  <div class="section-heading"><h2>Atendimentos recentes</h2></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Numero</th><th>Paciente</th><th>Status</th><th>Entrada</th></tr></thead>
+      <tbody>
+      {% for item in recent %}
+        <tr><td><a href="{{ url_for('main.attendance_detail', attendance_id=item.id) }}">{{ item.code }}</a></td><td>{{ item.full_name }}</td><td><span class="status">{{ item.status|replace('_', ' ') }}</span></td><td>{{ item.created_at }}</td></tr>
+      {% else %}<tr><td colspan="4" class="empty">Nenhum atendimento cadastrado.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
